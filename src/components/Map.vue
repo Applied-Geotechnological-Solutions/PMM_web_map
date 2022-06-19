@@ -36,21 +36,46 @@
 
         <div v-show='toggle' ref="legend_overlay" class="overlay-legend">
 
-          <h3 style="margin: 0px; padding: 0px; color:white; ">Legend</h3>
 
                 <div v-for="item in legend_items" :key="item" class="legend-list">
 
-                  <div v-if="item.visible & item.inlegend" class="text-bold-white">
-                    <img :src="item.img" class="legend-img"> {{item.name.replace("_", " ")}} 
+                  <div v-if="item.visible & item.inlegend">
+
+                    <div class=legend-grid-container>
+
+                      <div class=legend-header>
+                         Legend
+                      </div>
+
+                      <div class=legend-left>
+
+                        <img :src="item.img" class="legend-img"> 
+
+                      </div>
+
+                      <div class=legend-right>
+                        <div class=legend-text> 
+                           {{item.name.replace("_", " ")}}
+                        </div>
+
+                      </div>
+
+                    </div>
+                     
                   </div>
 
                 </div>
 
         </div>
 
-        <div ref="popupCom2" class="popup2"> Symbology based on UN OCHA resource sharing standard 
+        <div ref="popupCom2" class="popup2"> 
+          
+          <div class=overlay-text-feed>
+            Symbology is customizable
+          </div> 
 
           <span class="icon-close" @click="closePopup">x</span>
+
         </div>
 
 
@@ -288,7 +313,7 @@ function initMap() {
 
   overlay2.value = new Overlay({ element: popupCom2.value, 
   autoPan: true,
-  position: [3515315.442215883, 6034799.1294523671],
+  position: [2515315.442215883, 8034799.1294523671],
   autoPanAnimation: { 
   duration: 250 } })
 
@@ -552,17 +577,17 @@ onMounted(() => {
 
 .popup { 
   background-color: rgb(123, 152, 188, 0.7);
-  width: 25vh;
+  width: 15vw;
   height: 10vh;
   color: white;
   box-shadow: 0 5px 10px rgb(2 2 2 / 40%);
   
-  padding: 28px 25px;
-  font-size: 13px;
+  padding: 2.8vh;
   overflow:auto;
   transition: all 0.3s ease-in-out;
   
-  border-radius: 7.5px;
+  border-radius: 0.8vh;
+  box-shadow: 0 2.6vh 3vh rgb(2 2 2 / 40%);
   }
   .popup:hover {
   background-color: rgb(23, 9, 46, 0.9);;
@@ -570,13 +595,15 @@ onMounted(() => {
 }
 
 .popup2 {
-  margin: 70px auto;
-  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 8vh auto;
+  padding: 2vh;
   
   background-color: rgb(123, 152, 188);
-  border-radius: 5px;
-  box-shadow: 0 5px 10px rgb(2 2 2 / 40%);
-  width: 30%;
+  border-radius: 0.8vh;
+  box-shadow: 0 2.6vh 3vh rgb(2 2 2 / 40%);
+  
   position: relative;
   transition: all 0.3s ease-in-out;
   color: #333;
@@ -584,48 +611,6 @@ onMounted(() => {
 }
 .popup2:hover {
   background-color: rgba(0,60,136,0.7);
-}
-
-.overlay-legend {
-display: block;
-min-height: 100px;
-overflow: hidden;
-
-margin: 40px auto;
-padding: 15px;
-border: 1px solid rgba(0,110,172,1);
-box-shadow: 0 5px 10px rgb(2 2 2 / 40%);
-border-radius: 2.5px;
-
-width: 16vh;
-
-background-color: rgb(123, 152, 188);
-font-family: Tahoma, Arial, sans-serif;
-
-transition: all 0.5s ease-in-out;
-position: absolute;
-left: 60px;
-top: 20px;
-}
-.overlay-legend:hover {
-  background-color: rgba(0,60,136,0.7);
-}
-
-.overlay-legend-toggle {
-background-color: rgb(123, 152, 188);
-height: 25px;
-width: 80px;
-color: #fff;
-border: 0.2px;
-border-radius: 1.5px;
-border-color: rgba(255, 255, 255, 0.849);
-position: absolute;
-left: 60px;
-top: 9px;
-}
-.overlay-legend-toggle:hover {
-  background-color: rgba(0,60,136,0.7);
-  
 }
 
 .icon-close { 
@@ -707,10 +692,96 @@ stroke-width: 3px;
 
 
 
+/*                    LEGEND                */
+
+.overlay-legend {
+display: block;
+min-height: 10vh;
+overflow: hidden;
+box-sizing: border-box;
+
+margin: 40px auto;
+padding: 15px;
+border: 1px solid rgba(0,110,172,1);
+box-shadow: 0 5px 10px rgb(2 2 2 / 40%);
+border-radius: 2.5px;
+
+min-width: 16vh;
+
+background-color: rgb(123, 152, 188);
+font-family: Tahoma, Arial, sans-serif;
+
+transition: all 0.5s ease-in-out;
+position: absolute;
+left: 60px;
+top: 20px;
+}
+.overlay-legend:hover {
+  background-color: rgba(0,60,136,0.7);
+}
+
+.overlay-legend-toggle {
+background-color: rgb(123, 152, 188);
+height: 25px;
+width: 80px;
+color: #fff;
+border: 0.2px;
+border-radius: 1.5px;
+border-color: rgba(255, 255, 255, 0.849);
+position: absolute;
+left: 60px;
+top: 9px;
+
+}
+.overlay-legend-toggle:hover {
+  background-color: rgba(0,60,136,0.7);
+  box-shadow: 0 2.6vh 3vh rgb(2 2 2 / 40%);
+}
+
+
+.legend-grid-container {
+    display: grid;
+    grid-template-areas:
+    'legend-header legend-header'
+    'legend-left legend-right';
+}
+
+.legend-header {
+    grid-area: legend-header;
+    width: 3vw;
+    height: 3vh;
+    border: 0px solid rgb(0, 0, 0);
+
+    margin: 0px; 
+    padding: 0px;
+
+    font-size: 1.17em;
+    margin-top: 0.1em;
+    margin-bottom: 0.4em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+
+    color:white;
+}
+
+.legend-left {
+    grid-area: legend-left;
+    width: 3vw;
+    height: 5vh;
+    border: 0px solid rgb(0, 0, 0);
+ 
+}
+
+.legend-right {
+    grid-area: legend-right;
+    width: 6vw;
+    height: 5vh;
+    border: 0px solid rgb(0, 0, 0);
+    
+}
 
 .legend-img {
-  position: relative;
-  top: 1.2em;
   padding: 0px;
   margin: 0px;
   height: 40px;
@@ -725,8 +796,13 @@ stroke-width: 3px;
 }
 
 .legend-text {
-  padding: 0px;
-  margin: 0px;
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  font-family: Silka, sans-serif;
+  font-weight: bold;
+
+  position: relative;
+  top: 1em;
 }
 
 /* GENERAL CLASES */
@@ -737,8 +813,6 @@ font-size: 13px;
 position:relative;
 padding-bottom: 5px;
 bottom: 5px;
-font-family: Silka, sans-serif;
-font-weight: bold;
 }
 
 .text-bold-black {
