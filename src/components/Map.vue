@@ -118,7 +118,7 @@ import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import GeoJSON from 'ol/format/GeoJSON'
-import {Icon, Fill, Stroke, Style} from 'ol/style';
+import {Icon, Style} from 'ol/style';
 import OSM from 'ol/source/OSM'
 //import Select from 'ol/interaction/Select';
 //import {click} from 'ol/events/condition';
@@ -166,15 +166,15 @@ const viewResolution = ref(null)
 
 const selected = ref(null)
 
-const selectStyle = new Style({
-  fill: new Fill({
-    color: '#eeeeee',
-  }),
-  stroke: new Stroke({
-    color: 'rgba(255, 255, 255, 0.7)',
-    width: 2,
-  }),
-});
+//const selectStyle = new Style({
+//  fill: new Fill({
+//    color: '#eeeeee',
+//  }),
+//  stroke: new Stroke({
+//    color: 'rgba(255, 255, 255, 0.7)',
+//    width: 2,
+//  }),
+//});
 
 
 // Legend list items // WHENADDLAYERS
@@ -426,17 +426,28 @@ function mapClick() {
           
           if (selected.value !== null) { 
                     selected.value.setStyle(undefined);
+                    console.log('selected:', selected.value.getProperties())
                     selected.value = null;
           }
               
 
-              map.value.forEachFeatureAtPixel(event.pixel, function (feature) { // can add layer as argument **
+              map.value.forEachFeatureAtPixel(event.pixel, function (feature, layer) { // can add layer as argument **
  
                   console.log('FEATURE', feature.values_)
 
                   selected.value = feature;
-                  selectStyle.getFill().setColor(feature.get('COLOR') || '#eeeeee');
-                  feature.setStyle(selectStyle);
+                  //;
+                  feature.setStyle(new Style({
+                        image: new Icon({
+                        src: layer.getStyle().image_.iconImage_.src_,
+                        scale: [1.2, 1.2],
+                        
+                      }),
+                  }))
+
+                  
+
+
                   return true;
               });
 
